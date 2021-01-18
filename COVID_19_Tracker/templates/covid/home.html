@@ -5,6 +5,32 @@
 
 {% block content %}
 <div class="container">
-    <p class="text-uppercase">Hello world</p>
+    <p class="text-uppercase h1 text-primary mb-5 mt-5">Global cases</p>
+    <div class="row">
+
+        {% for global in global_data %}
+        {% if global == 'TotalConfirmed' or global == 'TotalDeaths' or global == 'TotalRecovered' %}
+        <div class="col-md-4">
+            <div class="card text-white {% if global == 'TotalConfirmed' %}bg-success {% elif global == 'TotalDeaths' %}bg-danger {% else %} bg-warning {% endif %} mb-3" style="max-width: 18rem;">
+                <div class="card-header h2">{{global}}</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% if global == 'TotalConfirmed' %}
+                            {{global_data.TotalConfirmed}}
+                        {% elif global == 'TotalDeaths' %}
+                            {{global_data.TotalDeaths}}
+                        {% else %}
+                            {{global_data.TotalRecovered}}
+                        {% endif %}
+                    </h5>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <pre>
+        {{summary}}
+    </pre>
 </div>
 {% endblock %}
