@@ -16,7 +16,7 @@ class Countries(models.Model):
     cid=models.CharField(max_length=10000,unique=True)
     country=models.CharField(max_length=1000)
     countryCode=models.CharField(max_length=100)
-    slugId=models.SlugField(unique=True)
+    slugId=models.SlugField()
     newConfirmed = models.IntegerField()
     totalConfirmed = models.IntegerField()
     newDeaths = models.IntegerField()
@@ -27,3 +27,19 @@ class Countries(models.Model):
 
     def __str__(self):
         return self.country
+
+class CountriesHistory(models.Model):
+    cid=models.CharField(max_length=10000,unique=True)
+    country=models.CharField(max_length=1000)
+    countryCode=models.CharField(max_length=100)
+    slugId=models.SlugField()
+    newConfirmed = models.IntegerField()
+    totalConfirmed = models.IntegerField()
+    newDeaths = models.IntegerField()
+    totalDeaths = models.IntegerField()
+    newRecovered = models.IntegerField()
+    totalRecoverd = models.BigIntegerField()
+    date=models.DateTimeField()
+    saved_date=models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    def __str__(self):
+        return str(self.date)

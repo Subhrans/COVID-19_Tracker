@@ -239,10 +239,10 @@ body{
 .table-row{
     margin:4rem 0 !important;
 }
-table.dataTable tbody th, table.dataTable tbody td
+/*table.dataTable tbody th, table.dataTable tbody td
 {
     padding: 1rem 1.5rem !important;
-}
+}*/
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
