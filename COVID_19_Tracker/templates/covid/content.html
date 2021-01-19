@@ -1,23 +1,25 @@
+{% load humanize %}
 <div class="container">
     <div class="row">
         <div class="col d-flex">
             Last Update:
             <p class="text-primary ml-4">
-                2021-01-18 17:26:01
+                {{global_data_new.date|naturaltime}}
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 bg-white">
             <div class="row bg-shine">
-                <div class="col-xl-6 col-lg-5 col-md-5 col bg-white border shadow-box margin">
+                <div class="col-xl-6 col-xl-5 col-lg-5 col-md-5 col-md-6 col ml-2 bg-white border shadow-box margin">
+
                     <div class="world-widget">
                         <div class="icon gradient-1">
                             <i class="fas fa-users"></i>
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Cases</h5>
-                            <h2 class="text-muted h4" id="total_cases">94M</h2>
+                            <h2 class="text-muted h4" id="total_cases">{{global_data_new.totalConfirmed|intword|upper|slice:":6"}}</h2>
                         </div>
                     </div>
                 </div>
@@ -29,7 +31,7 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Deaths</h5>
-                            <h2 class="text-muted h4" id="total_cases">2M</h2>
+                            <h2 class="text-muted h4" id="total_deaths">{{global_data_new.totalDeaths|intword|upper|slice:':5'}}</h2>
                         </div>
                     </div>
                 </div>
@@ -42,7 +44,7 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">New Cases</h5>
-                            <h2 class="text-muted h4" id="total_cases">144K</h2>
+                            <h2 class="text-muted h4" id="new_cases">{{global_data_new.newConfirmed|intword}}</h2>
                         </div>
                     </div>
                 </div>
@@ -56,7 +58,7 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Recovered</h5>
-                            <h2 class="text-muted h4" id="total_cases">93M</h2>
+                            <h2 class="text-muted h4" id="total_recovered">{{global_data_new.totalRecoverd|intword|upper|slice:':6'}}</h2>
                         </div>
                     </div>
                 </div>
@@ -69,7 +71,7 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">New Recovered</h5>
-                            <h2 class="text-muted h4" id="total_cases">999</h2>
+                            <h2 class="text-muted h4" id="new_recovered">{{global_data_new.newRecovered|intword|upper}}</h2>
                         </div>
                     </div>
 
@@ -83,7 +85,7 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size"> New Deaths </h5>
-                            <h2 class="text-muted h4" id="total_cases">10K</h2>
+                            <h2 class="text-muted h4" id="new_deaths">{{global_data_new.newDeaths|intword|upper}}</h2>
                         </div>
                     </div>
                 </div>

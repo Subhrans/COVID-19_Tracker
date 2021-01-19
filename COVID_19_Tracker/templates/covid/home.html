@@ -6,16 +6,22 @@
 {% endblock %}
 {% block css %}
     <link href="{% static 'covid/css/dashboard.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'covid/images/COVID-19.png' %}" type="image/x-icon">
 {% endblock %}
 {% block content %}
     {% include 'covid/navbar.html' %}
     {% include 'covid/content.html' %}
     {% include 'covid/TableData.html' %}
+for globaldata
+{{global_data_new.newConfirmed}}
 <div class="container">
     <p class="text-uppercase h1 text-primary mb-5 mt-5">Global cases</p>
     <div class="row">
 
         {% for global in global_data %}
+        {% for total in  global %}
+        {{total.ID}}
+        {% endfor %}
         {% if global == 'TotalConfirmed' or global == 'TotalDeaths' or global == 'TotalRecovered' %}
         <div class="col-md-4">
             <div class="card text-white {% if global == 'TotalConfirmed' %}bg-success {% elif global == 'TotalDeaths' %}bg-danger {% else %} bg-warning {% endif %} mb-3"
