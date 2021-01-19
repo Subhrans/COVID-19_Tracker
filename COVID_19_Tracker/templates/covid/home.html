@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
 {% block title %}
-{{block.super}}
+    {{block.super}}
 {% endblock %}
-
+{% block css %}
+    <link href="{% static 'covid/css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
+    {% include 'covid/navbar.html' %}
+    {% include 'covid/content.html' %}
+    {% include 'covid/TableData.html' %}
 <div class="container">
     <p class="text-uppercase h1 text-primary mb-5 mt-5">Global cases</p>
     <div class="row">
@@ -11,16 +18,17 @@
         {% for global in global_data %}
         {% if global == 'TotalConfirmed' or global == 'TotalDeaths' or global == 'TotalRecovered' %}
         <div class="col-md-4">
-            <div class="card text-white {% if global == 'TotalConfirmed' %}bg-success {% elif global == 'TotalDeaths' %}bg-danger {% else %} bg-warning {% endif %} mb-3" style="max-width: 18rem;">
+            <div class="card text-white {% if global == 'TotalConfirmed' %}bg-success {% elif global == 'TotalDeaths' %}bg-danger {% else %} bg-warning {% endif %} mb-3"
+                 style="max-width: 18rem;">
                 <div class="card-header h2">{{global}}</div>
                 <div class="card-body">
                     <h5 class="card-title">
                         {% if global == 'TotalConfirmed' %}
-                            {{global_data.TotalConfirmed}}
+                        {{global_data.TotalConfirmed|intword}}
                         {% elif global == 'TotalDeaths' %}
-                            {{global_data.TotalDeaths}}
+                        {{global_data.TotalDeaths|intword}}
                         {% else %}
-                            {{global_data.TotalRecovered}}
+                        {{global_data.TotalRecovered|intword}}
                         {% endif %}
                     </h5>
                 </div>
@@ -33,4 +41,8 @@
         {{summary}}
     </pre>
 </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'covid/js/map.js' %}"></script>
+    <script src="{% static 'covid/js/dashboard.js' %}"></script>
 {% endblock %}
