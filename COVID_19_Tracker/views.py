@@ -1,16 +1,21 @@
+import json
+
 import requests
 from django.shortcuts import render
-from .models import Global,Countries,CountriesHistory
-import json
+
+from .models import Global, Countries, CountriesHistory
 
 
 # Create your views here.
 def fetchCovidData():
     r = requests.get('https://api.covid19api.com/summary')
-    r= r.json()
+    r = r.json()
+
     return r
+
+
 def home(request):
-    r=fetchCovidData()
+    r = fetchCovidData()
 
     # summary=dict(summary)
     global_data = r['Global']
@@ -18,13 +23,14 @@ def home(request):
 
     summary1 = json.dumps(c, indent=4)
     print(global_data)
-    global_datanew=None
-    countries_data_new=None
+    global_datanew = None
+    countries_data_new = None
     for i in range(len(c)):
         countries_data = r['Countries'][i]
         if Countries.objects.filter(slugId=countries_data['Slug']).exists():
-            if Countries.objects.filter(cid=countries_data['ID'],slugId=countries_data['Slug']).exists():
+            if Countries.objects.filter(date=countries_data['Date'], slugId=countries_data['Slug']).exists():
                 countries_data_new = Countries.objects.all()
+                # india_data=Countries.objects.get(country="india")
             else:
                 CountriesHistory.objects.create(cid=countries_data['ID'],
                                                 country=countries_data['Country'],
@@ -38,7 +44,7 @@ def home(request):
                                                 totalRecoverd=int(countries_data['TotalRecovered']),
                                                 date=countries_data['Date'],
                                                 )
-                countries_data_new=Countries.objects.get(slugId=countries_data['Slug'])
+                countries_data_new = Countries.objects.get(slugId=countries_data['Slug'])
                 countries_data_new.cid = countries_data['ID']
                 countries_data_new.newConfirmed = int(countries_data['NewConfirmed'])
                 countries_data_new.totalConfirmed = int(countries_data['TotalConfirmed'])
@@ -48,22 +54,23 @@ def home(request):
                 countries_data_new.totalRecoverd = int(countries_data['TotalRecovered'])
                 countries_data_new.date = countries_data['Date']
                 countries_data_new.save()
+                # return HttpResponseRedirect('/')
         else:
             Countries.objects.create(cid=countries_data['ID'],
-                                    country=countries_data['Country'],
-                                    countryCode=countries_data['CountryCode'],
-                                    slugId=countries_data['Slug'],
-                                    newConfirmed=int(countries_data['NewConfirmed']),
-                                    totalConfirmed=int(countries_data['TotalConfirmed']),
-                                    newDeaths=int(countries_data['NewDeaths']),
-                                    totalDeaths=int(countries_data['TotalDeaths']),
-                                    newRecovered=int(countries_data['NewRecovered']),
-                                    totalRecoverd=int(countries_data['TotalRecovered']),
-                                    date=countries_data['Date'],
-                                  )
+                                     country=countries_data['Country'],
+                                     countryCode=countries_data['CountryCode'],
+                                     slugId=countries_data['Slug'],
+                                     newConfirmed=int(countries_data['NewConfirmed']),
+                                     totalConfirmed=int(countries_data['TotalConfirmed']),
+                                     newDeaths=int(countries_data['NewDeaths']),
+                                     totalDeaths=int(countries_data['TotalDeaths']),
+                                     newRecovered=int(countries_data['NewRecovered']),
+                                     totalRecoverd=int(countries_data['TotalRecovered']),
+                                     date=countries_data['Date'],
+                                     )
 
     if Global.objects.filter(gid=global_data['ID']).exists():
-        global_datanew=Global.objects.get(gid=global_data['ID'])
+        global_datanew = Global.objects.get(gid=global_data['ID'])
     else:
         Global.objects.create(gid=global_data['ID'],
                               newConfirmed=int(global_data['NewConfirmed']),
@@ -76,11 +83,17 @@ def home(request):
     print(type(global_data))
     print(global_datanew)
     print(summary1)
-    print("range of dist is : ",len(c))
+    print("range of dist is : ", len(c))
     # print(r)
     context = {"global_data": global_data,
                "summary": r,
-               "global_data_new":global_datanew,
-               "countries_data_new":countries_data_new,
+               "global_data_new": global_datanew,
+               "countries_data_new": countries_data_new,
                }
     return render(request, 'covid/home.html', context)
+
+
+def india(request):
+
+    India_json = requests.get("https://api.covid19india.org/data.json")
+    return render(request, 'covid/IndiaData.html')

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %} India {% endblock %}
+{% block css %}
+<link href="{% static 'covid/css/indiadata.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+{% include 'covid/navbar.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
+            <div class="row">
+                <p class="offset-4 text-muted">Search your disctrict or state</p>
+                <span class="offset-6 mb-1 search-upper d-none d-sm-inline-block"></span>
+                <div class="input-group mb-3 shadow mb-5 p-2 ml-4 mr-4 rounded">
+                    <input aria-describedby="basic-addon2" aria-label="Recipient's username" class="form-control border-0"
+                           placeholder="Recipient's username" type="text">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                    <!--    Card Area    -->
+                    <div class="card alert-danger border-0 w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Confirmed</h5>
+                            <small class="text-muted">+14000</small>
+                            <p class="card-text h2">
+                                65M
+                            </p>
+                        </div>
+                    </div>
+                    <!--    End - card Area  -->
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col ">
+                    <!--    Card Area    -->
+                    <div class="card alert-primary border-0 w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Active</h5>
+                            <small class="text-muted">+14000</small>
+                            <p class="card-text h2">
+                                65M
+                            </p>
+                        </div>
+                    </div>
+                    <!--    End - card Area  -->
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                    <!--    Card Area    -->
+                    <div class="card alert-success border-0 w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Recovered</h5>
+                            <small class="text-muted">+14000</small>
+                            <p class="card-text h2">
+                                65M
+                            </p>
+                        </div>
+                    </div>
+                    <!--    End - card Area  -->
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                    <!--    Card Area    -->
+                    <div class="card alert-secondary border-0 w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Deaths</h5>
+                            <small class="text-muted">+14000</small>
+                            <p class="card-text h2">
+                                65M
+                            </p>
+                        </div>
+                    </div>
+                    <!--    End - card Area  -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h2 alert-danger text-danger w-25 text-center rounded pt-1 pb-1">India</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small class="text-muted">Last Update on 21 Jan ,2.45AM</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="map-margin" id="india" style="height: 600px; width: 900px;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6">
+            <div class="container border p-4 bg-white shadow-box table-Data">
+                <table class="display table table-hover" id="table_id">
+                    <thead>
+                    <tr class="bg-primary text-white">
+                        <th>State</th>
+                        <th>Total Confirmed</th>
+                        <th>Total Deaths</th>
+                        <th>Total Recoverd</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for country_Data in countries_data_new %}
+                    <tr>
+                        <td>{{country_Data.country}}</td>
+                        <td>{{country_Data.totalConfirmed}}</td>
+                        <td>{{country_Data.totalDeaths}}</td>
+                        <td>{{country_Data.totalRecoverd}}</td>
+                        <td>{{country_Data.date|date:"d M Y"}}</td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- End of the Table Data -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
+
+<script>
+        var bubble_map = new Datamap({
+    element: document.getElementById('india'),
+    scope: 'india',
+
+    geographyConfig: {
+        popupOnHover: true,
+        highlightOnHover: true,
+        borderColor: '#444',
+        borderWidth: 0.5,
+        dataUrl: 'https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json'
+        //dataJson: topoJsonData
+    },
+    fills: {
+        'MAJOR': '#306596',
+        'MEDIUM': '#0fa0fa',
+        'MINOR': '#bada55',
+        defaultFill: '#dddddd'
+    },
+    data: {
+        'JH': { fillKey: 'MINOR' },
+        'MH': { fillKey: 'MINOR' }
+    },
+    setProjection: function (element) {
+        var projection = d3.geo.mercator()
+            .center([78.9629, 23.5937]) // always in [East Latitude, North Longitude]
+            .scale(1000);
+        var path = d3.geo.path().projection(projection);
+        return { path: path, projection: projection };
+    }
+});
+
+let bubbles = [
+    {
+        centered: "MH",
+        fillKey: "MAJOR",
+        radius: 20,
+        state: "Maharastra"
+    },
+    {
+        centered: "AP",
+        fillKey: "MAJOR",
+        radius: 22,
+        state: "Andhra Pradesh"
+    },
+    {
+        centered: "TN",
+        fillKey: "MAJOR",
+        radius: 16,
+        state: "Tamil Nadu"
+    },
+    {
+        centered: "WB",
+        fillKey: "MEDIUM",
+        radius: 15,
+        state: "West Bengal"
+    },
+    {
+        centered: "MP",
+        fillKey: "MEDIUM",
+        radius: 15,
+        state: "Madhya Pradesh",
+        confirmed:"1020"
+    },
+    {
+        centered: "UP",
+        fillKey: "MINOR",
+        radius: 8,
+        state: "Uttar Pradesh"
+    },
+    {
+        centered: "RJ",
+        fillKey: "MINOR",
+        radius: 7,
+        state: "Rajasthan"
+    }
+
+]
+// // ISO ID code for city or <state></state>
+setTimeout(() => { // only start drawing bubbles on the map when map has rendered completely.
+    bubble_map.bubbles(bubbles, {
+        popupTemplate: function (geo, data) {
+            console.log(data);
+            return `<div class="hoverinfo">city: ${data.state}, Slums: ${data.radius}%</div>`;
+        }
+    });
+}, 1000);
+
+
+</script>
+{% endblock %}

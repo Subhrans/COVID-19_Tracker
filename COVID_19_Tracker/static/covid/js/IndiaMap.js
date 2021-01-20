@@ -1,33 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load humanize %}
-{% block title %}
-{{block.super}}
-{% endblock %}
-{% block css %}
-<link href="{% static 'covid/css/dashboard.css' %}" rel="stylesheet">
-<link href="{% static 'covid/images/COVID-19.png' %}" rel="shortcut icon" type="image/x-icon">
-{% endblock %}
-{% block content %}
-
-{% include 'covid/navbar.html' %}
-{% include 'covid/content.html' %}
-{% include 'covid/TableData.html' %}
-
-
-<!--    <div id="canada" style="height: 600px; width: 900px;"></div>-->
-{% endblock %}
-
-
-{% block js %}
-<script src="{% static 'covid/js/map.js' %}"></script>
-<script src="{% static 'covid/js/dashboard.js' %}"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
-
-<script>
-        var bubble_map = new Datamap({
+var bubble_map = new Datamap({
     element: document.getElementById('india'),
     scope: 'india',
 
@@ -113,8 +84,3 @@ setTimeout(() => { // only start drawing bubbles on the map when map has rendere
         }
     });
 }, 1000);
-
-
-</script>
-
-{% endblock %}

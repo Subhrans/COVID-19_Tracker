@@ -11,7 +11,7 @@
     <p class="text-uppercase text-primary h2 ">Global cases</p>
     <div class="row">
 
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 bg-white">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
             <div class="row bg-shine">
                 <div class="col-xl-6 col-xl-5 col-lg-5 col-md-5 col-md-6 col ml-2 bg-white border shadow-box margin">
 
@@ -21,7 +21,8 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Cases</h5>
-                            <h2 class="text-muted h4" id="total_cases">{{global_data_new.totalConfirmed|intword|upper|slice:":6"}}</h2>
+                            <h2 class="text-muted h4" id="total_cases">
+                                {{global_data_new.totalConfirmed|intword|upper|slice:":6"}}</h2>
                         </div>
                     </div>
                 </div>
@@ -33,7 +34,8 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Deaths</h5>
-                            <h2 class="text-muted h4" id="total_deaths">{{global_data_new.totalDeaths|intword|upper|slice:':5'}}</h2>
+                            <h2 class="text-muted h4" id="total_deaths">
+                                {{global_data_new.totalDeaths|intword|upper|slice:':5'}}</h2>
                         </div>
                     </div>
                 </div>
@@ -60,7 +62,8 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">Total Recovered</h5>
-                            <h2 class="text-muted h4" id="total_recovered">{{global_data_new.totalRecoverd|intword|upper|slice:':6'}}</h2>
+                            <h2 class="text-muted h4" id="total_recovered">
+                                {{global_data_new.totalRecoverd|intword|upper|slice:':6'}}</h2>
                         </div>
                     </div>
                 </div>
@@ -73,7 +76,8 @@
                         </div>
                         <div>
                             <h5 class="text-color text-size">New Recovered</h5>
-                            <h2 class="text-muted h4" id="new_recovered">{{global_data_new.newRecovered|intword|upper}}</h2>
+                            <h2 class="text-muted h4" id="new_recovered">
+                                {{global_data_new.newRecovered|intword|upper}}</h2>
                         </div>
                     </div>
 
@@ -97,7 +101,7 @@
 
         <!-- Map area -->
         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 bg-white border shadow-box">
-            <div class="w-100 h-100" id="container1"></div>
+            <div class="map-margin" id="india" style="height: 600px; width: 900px;"></div>
         </div>
         <!-- End of map area -->
     </div>

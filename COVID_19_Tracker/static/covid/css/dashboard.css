@@ -272,3 +272,9 @@ body{
         font-size:0.7rem;
     }
 }
+.map-margin{
+        margin-left: -250px;
+}
+.datamaps-hoverover{
+   margin-left: -250px;
+}

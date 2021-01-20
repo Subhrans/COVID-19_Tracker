@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('COVID_19_Tracker', '0005_countrieshistory'),
     ]
