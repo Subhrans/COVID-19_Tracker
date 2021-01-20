@@ -17,7 +17,7 @@
                     <input aria-describedby="basic-addon2" aria-label="Recipient's username" class="form-control border-0"
                            placeholder="Recipient's username" type="text">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search"></i>
+                        <button class="btn border-0" type="button"><i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
@@ -117,13 +117,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for country_Data in countries_data_new %}
+                    {% for India_Data in indiadata %}
                     <tr>
-                        <td>{{country_Data.country}}</td>
-                        <td>{{country_Data.totalConfirmed}}</td>
-                        <td>{{country_Data.totalDeaths}}</td>
-                        <td>{{country_Data.totalRecoverd}}</td>
-                        <td>{{country_Data.date|date:"d M Y"}}</td>
+                        <td>{{India_Data.state}}</td>
+                        <td>{{India_Data.confirmed}}</td>
+                        <td>{{India_Data.deaths}}</td>
+                        <td>{{India_Data.recovered}}</td>
+                        <td>{{India_Data.last_update_time|date:"d M Y"}}</td>
                     </tr>
                     {% endfor %}
 

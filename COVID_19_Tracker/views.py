@@ -2,9 +2,11 @@ import json
 
 import requests
 from django.shortcuts import render
+from django.utils.dateparse import parse_datetime
+from datetime import datetime
 
-from .models import Global, Countries, CountriesHistory
-
+from .models import Global, Countries, CountriesHistory,India
+from .forms import IndiaForm
 
 # Create your views here.
 def fetchCovidData():
@@ -27,6 +29,7 @@ def home(request):
     countries_data_new = None
     for i in range(len(c)):
         countries_data = r['Countries'][i]
+        print("country",countries_data['Date'],type(countries_data['Date']))
         if Countries.objects.filter(slugId=countries_data['Slug']).exists():
             if Countries.objects.filter(date=countries_data['Date'], slugId=countries_data['Slug']).exists():
                 countries_data_new = Countries.objects.all()
@@ -80,9 +83,7 @@ def home(request):
                               newRecovered=int(global_data['NewRecovered']),
                               totalRecoverd=int(global_data['TotalRecovered']),
                               )
-    print(type(global_data))
-    print(global_datanew)
-    print(summary1)
+
     print("range of dist is : ", len(c))
     # print(r)
     context = {"global_data": global_data,
@@ -96,4 +97,49 @@ def home(request):
 def india(request):
 
     India_json = requests.get("https://api.covid19india.org/data.json")
-    return render(request, 'covid/IndiaData.html')
+    r=India_json.json()
+    statewise=r['statewise']
+    datenew=statewise[0]['lastupdatedtime']
+    print(datenew,type(datenew))
+    datenew=datenew.replace('/', '-')
+    # datenew=parse_datetime(datenew)
+    datesplit=datenew.split(" ")
+    datenew=datetime.strptime(datesplit[0], '%d-%m-%Y')
+    datenew=datenew.strftime('%Y-%m-%d ')
+    print("split date:",datesplit)
+    datenew+=datesplit[1]
+    print("paseed date time:",datenew, type(datenew))
+    for i in range(len(statewise)):
+        statewise = r['statewise'][i]
+        date = statewise['lastupdatedtime']
+        date = date.replace('/', '-')
+        datesplit = date.split(" ")
+        date = datetime.strptime(datesplit[0], '%d-%m-%Y')
+        date = date.strftime('%Y-%m-%d ')
+        date += datesplit[1]
+        indiadata=None
+        if India.objects.filter(state_code=statewise['statecode']).exists():
+            indiadata=India.objects.all()
+            # India.objects.create(active=statewise['active'],
+            #                      confirmed=statewise['confirmed'],
+            #                      deaths=statewise['deaths'],
+            #                      new_confirmed=statewise['deltaconfirmed'],
+            #                      new_deaths=statewise['deltadeaths'],
+            #                      new_recovered=statewise['deltarecovered'],
+            #                      recovered=statewise['recovered'],
+            #                      last_update_time=date,
+            #                      )
+        else:
+            India.objects.create(state=statewise['state'],
+                                 state_code=statewise['statecode'],
+                                 active=statewise['active'],
+                                 confirmed=statewise['confirmed'],
+                                 deaths=statewise['deaths'],
+                                 new_confirmed=statewise['deltaconfirmed'],
+                                 new_deaths=statewise['deltadeaths'],
+                                 new_recovered=statewise['deltarecovered'],
+                                 recovered=statewise['recovered'],
+                                 last_update_time=date,
+                                 )
+            # print(statewise['state'])
+    return render(request, 'covid/IndiaData.html',{"indiadata":indiadata})

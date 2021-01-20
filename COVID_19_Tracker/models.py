@@ -58,5 +58,5 @@ class India(models.Model):
     new_confirmed=models.BigIntegerField()
     new_deaths=models.BigIntegerField()
     new_recovered=models.BigIntegerField()
-    last_update_time=models.DateTimeField(unique=True)
+    last_update_time=models.DateTimeField()
     creation_date=models.DateTimeField(auto_now_add=True)
