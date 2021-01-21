@@ -110,24 +110,20 @@ def india(request):
         date += datesplit[1]
         indiadata=None
 
-        if India.objects.filter(state_code=statewise['statecode']).exists():
+        statechanged = statewise['statecode']
+        if statechanged == "UT":
+            statechanged = "UK"
+        elif statechanged == "LA":
+            statechanged = "LD"
+        elif statechanged == "TG":
+            statechanged = "TS"
+        elif statechanged == "OR":
+            statechanged = "OD"
+        elif statechanged == "UN":
+            continue
+        if India.objects.filter(state_code=statechanged).exists():
             indiadata=India.objects.all()
-            for x in indiadata:
-                if x.state_code == "UT":
-                    x.state_code = "UK"
-                    # x.save()
-                elif x.state_code == "LA":
-                    x.state_code = "LD"
-                    # x.save()
-                elif x.state_code == "TG":
-                    x.state_code = "TS"
-                    # x.save()
-                elif x.state_code == "OR":
-                    x.state_code = "OD"
-                x.save()
-            # indiadata.update()
-            # UK=UT LD=LA TS=TG OD=OR
-            indiadata=India.objects.exclude(state_code="TT").exclude(state_code="UN")
+            indiadata=India.objects.exclude(state_code="TT")
             # India.objects.create(active=statewise['active'],
             #                      confirmed=statewise['confirmed'],
             #                      deaths=statewise['deaths'],
@@ -140,7 +136,7 @@ def india(request):
         else:
 
             India.objects.create(state=statewise['state'],
-                                 state_code=statewise['statecode'],
+                                 state_code=statechanged,
                                  active=statewise['active'],
                                  confirmed=statewise['confirmed'],
                                  deaths=statewise['deaths'],
@@ -150,5 +146,5 @@ def india(request):
                                  recovered=statewise['recovered'],
                                  last_update_time=date,
                                  )
-            # print(statewise['state'])
-    return render(request, 'covid/IndiaData.html',{"indiadata":indiadata})
+    total=India.objects.get(state_code="TT")
+    return render(request, 'covid/IndiaData.html',{"indiadata":indiadata,"total":total})
