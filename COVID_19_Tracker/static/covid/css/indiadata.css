@@ -11,3 +11,6 @@
 .datamaps-hoverover{
    margin-left: -250px;
 }
+.dataTables_wrapper{
+    z-index:999;
+}

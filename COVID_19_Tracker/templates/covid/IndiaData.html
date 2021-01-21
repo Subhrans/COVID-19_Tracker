@@ -79,6 +79,49 @@
                 </div>
 
             </div>
+
+    <!--     Data table show with in the gap       -->
+
+          <div class="row mt-5">
+        <div class="col-xl-12 col-lg-12 col-md-12">
+            <div class="container shadow p-4  bg-white shadow-box table-Data">
+                <table class="display table table-hover" id="table_id">
+                    <thead>
+                    <tr class="bg-primary text-white">
+                        <th>State</th>
+                        <th>Total Confirmed</th>
+                        <th>Total Deaths</th>
+                        <th>Total Recoverd</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for India_Data in indiadata %}
+                    {% if India_Data.state == "" %}
+                        {% comment %}   not show{% endcomment %}
+                    {% else %}
+                    <tr>
+
+                        <td>{{India_Data.state}}</td>
+                        <td>{{India_Data.confirmed}}</td>
+                        <td>{{India_Data.deaths}}</td>
+                        <td>{{India_Data.recovered}}</td>
+                        <td>{{India_Data.last_update_time|date:"d M Y"}}</td>
+
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- End of the Table Data -->
+        </div>
+    </div>
+
+
+
+
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
             <div class="row">
@@ -103,36 +146,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6">
-            <div class="container border p-4 bg-white shadow-box table-Data">
-                <table class="display table table-hover" id="table_id">
-                    <thead>
-                    <tr class="bg-primary text-white">
-                        <th>State</th>
-                        <th>Total Confirmed</th>
-                        <th>Total Deaths</th>
-                        <th>Total Recoverd</th>
-                        <th>Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for India_Data in indiadata %}
-                    <tr>
-                        <td>{{India_Data.state}}</td>
-                        <td>{{India_Data.confirmed}}</td>
-                        <td>{{India_Data.deaths}}</td>
-                        <td>{{India_Data.recovered}}</td>
-                        <td>{{India_Data.last_update_time|date:"d M Y"}}</td>
-                    </tr>
-                    {% endfor %}
 
-                    </tbody>
-                </table>
-            </div>
-            <!-- End of the Table Data -->
-        </div>
-    </div>
 </div>
 {% endblock %}
 
@@ -142,6 +156,11 @@
 <script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
 
 <script>
+$(document).ready( function () {
+    let data = $('#table_id').DataTable({
+    "lengthMenu": [[3, 10, 25, 50, -1], [3, 10, 25, 50, "All"]],
+    });
+} );
         var bubble_map = new Datamap({
     element: document.getElementById('india'),
     scope: 'india',
@@ -174,49 +193,25 @@
 });
 
 let bubbles = [
+    {% for data in indiadata %}
+    {% if data.state == "" or data.%}
+        {% comment %} not data {% endcomment %}
+    {% else %}
     {
-        centered: "MH",
+        centered: "{{data.state_code}}",
         fillKey: "MAJOR",
         radius: 20,
-        state: "Maharastra"
+        state: "{{data.state}}",
+        confirmed:{{data.confirmed}},
+        active:{{data.active}},
+        deaths:{{data.deaths}},
+        recovered:{{data.recovered}},
+        new_confirmed:{{data.new_confirmed}},
+        new_deaths:{{data.new_deaths}},
+
     },
-    {
-        centered: "AP",
-        fillKey: "MAJOR",
-        radius: 22,
-        state: "Andhra Pradesh"
-    },
-    {
-        centered: "TN",
-        fillKey: "MAJOR",
-        radius: 16,
-        state: "Tamil Nadu"
-    },
-    {
-        centered: "WB",
-        fillKey: "MEDIUM",
-        radius: 15,
-        state: "West Bengal"
-    },
-    {
-        centered: "MP",
-        fillKey: "MEDIUM",
-        radius: 15,
-        state: "Madhya Pradesh",
-        confirmed:"1020"
-    },
-    {
-        centered: "UP",
-        fillKey: "MINOR",
-        radius: 8,
-        state: "Uttar Pradesh"
-    },
-    {
-        centered: "RJ",
-        fillKey: "MINOR",
-        radius: 7,
-        state: "Rajasthan"
-    }
+    {% endif %}
+    {% endfor %}
 
 ]
 // // ISO ID code for city or <state></state>

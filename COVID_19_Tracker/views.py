@@ -100,15 +100,6 @@ def india(request):
     r=India_json.json()
     statewise=r['statewise']
     datenew=statewise[0]['lastupdatedtime']
-    print(datenew,type(datenew))
-    datenew=datenew.replace('/', '-')
-    # datenew=parse_datetime(datenew)
-    datesplit=datenew.split(" ")
-    datenew=datetime.strptime(datesplit[0], '%d-%m-%Y')
-    datenew=datenew.strftime('%Y-%m-%d ')
-    print("split date:",datesplit)
-    datenew+=datesplit[1]
-    print("paseed date time:",datenew, type(datenew))
     for i in range(len(statewise)):
         statewise = r['statewise'][i]
         date = statewise['lastupdatedtime']
@@ -118,8 +109,25 @@ def india(request):
         date = date.strftime('%Y-%m-%d ')
         date += datesplit[1]
         indiadata=None
+
         if India.objects.filter(state_code=statewise['statecode']).exists():
             indiadata=India.objects.all()
+            for x in indiadata:
+                if x.state_code == "UT":
+                    x.state_code = "UK"
+                    # x.save()
+                elif x.state_code == "LA":
+                    x.state_code = "LD"
+                    # x.save()
+                elif x.state_code == "TG":
+                    x.state_code = "TS"
+                    # x.save()
+                elif x.state_code == "OR":
+                    x.state_code = "OD"
+                x.save()
+            # indiadata.update()
+            # UK=UT LD=LA TS=TG OD=OR
+            indiadata=India.objects.exclude(state_code="TT").exclude(state_code="UN")
             # India.objects.create(active=statewise['active'],
             #                      confirmed=statewise['confirmed'],
             #                      deaths=statewise['deaths'],
@@ -130,6 +138,7 @@ def india(request):
             #                      last_update_time=date,
             #                      )
         else:
+
             India.objects.create(state=statewise['state'],
                                  state_code=statewise['statecode'],
                                  active=statewise['active'],

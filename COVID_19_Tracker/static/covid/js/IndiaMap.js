@@ -1,3 +1,9 @@
+$(document).ready( function () {
+    let data = $('#table_id').DataTable( function(){
+        "lengthMenu": [[3, 10, 25, 50, -1], [3, 10, 25, 50, "All"]]
+    });
+
+} );
 var bubble_map = new Datamap({
     element: document.getElementById('india'),
     scope: 'india',

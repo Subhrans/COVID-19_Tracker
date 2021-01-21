@@ -50,7 +50,7 @@ class CountriesHistory(models.Model):
 
 class India(models.Model):
     state=models.CharField(max_length=1000)
-    state_code=models.CharField(max_length=100,unique=True)
+    state_code=models.CharField(max_length=100)
     active=models.BigIntegerField()
     confirmed=models.BigIntegerField()
     deaths=models.BigIntegerField()
