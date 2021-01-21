@@ -14,3 +14,17 @@
 .dataTables_wrapper{
     z-index:999;
 }
+input[type="search" i]{
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    border-right:4px solid rgba(0,0,0,0.5);
+    width:22ch;
+}
+@keyframes writer{
+    0%{
+        width:0ch;
+    }
+    100%{
+    width:22ch;
+    }
+}
