@@ -27,7 +27,8 @@
 <script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
 
 <script>
-        var bubble_map = new Datamap({
+$(document).ready(function(){
+    var bubble_map = new Datamap({
     element: document.getElementById('india'),
     scope: 'india',
 
@@ -113,7 +114,7 @@ setTimeout(() => { // only start drawing bubbles on the map when map has rendere
         }
     });
 }, 1000);
-
+});
 
 </script>
 

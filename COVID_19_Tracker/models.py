@@ -10,7 +10,9 @@ class Global(models.Model):
     totalDeaths = models.IntegerField()
     newRecovered = models.IntegerField()
     totalRecoverd = models.BigIntegerField()
+    update_date = models.DateTimeField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+
 
 
 class Countries(models.Model):
@@ -50,13 +52,27 @@ class CountriesHistory(models.Model):
 
 class India(models.Model):
     state=models.CharField(max_length=1000)
-    state_code=models.CharField(max_length=100)
-    active=models.BigIntegerField()
-    confirmed=models.BigIntegerField()
-    deaths=models.BigIntegerField()
-    recovered=models.BigIntegerField()
-    new_confirmed=models.BigIntegerField()
-    new_deaths=models.BigIntegerField()
-    new_recovered=models.BigIntegerField()
-    last_update_time=models.DateTimeField()
-    creation_date=models.DateTimeField(auto_now_add=True)
+    state_code = models.CharField(max_length=100)
+    active = models.BigIntegerField()
+    confirmed = models.BigIntegerField()
+    deaths = models.BigIntegerField()
+    recovered = models.BigIntegerField()
+    new_confirmed = models.BigIntegerField()
+    new_deaths = models.BigIntegerField()
+    new_recovered = models.BigIntegerField()
+    last_update_time = models.DateTimeField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+
+class IndiaHistory(models.Model):
+    state = models.CharField(max_length=1000)
+    state_code = models.CharField(max_length=100)
+    active = models.BigIntegerField()
+    confirmed = models.BigIntegerField()
+    deaths = models.BigIntegerField()
+    recovered = models.BigIntegerField()
+    new_confirmed = models.BigIntegerField()
+    new_deaths = models.BigIntegerField()
+    new_recovered = models.BigIntegerField()
+    last_update_time = models.DateTimeField()
+    creation_date = models.DateTimeField(auto_now_add=True)

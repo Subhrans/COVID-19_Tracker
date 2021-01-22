@@ -1,7 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 
-from .models import Global, Countries, CountriesHistory,India
+from .models import Global, Countries, CountriesHistory, India, IndiaHistory
 
 
 @admin.register(Global)
@@ -20,7 +20,11 @@ class CountriesHistoryAdmin(admin.ModelAdmin):
     list_display_links = ['saved_date', 'date']
 
 
-
 @admin.register(India)
 class IndiaAdmin(admin.ModelAdmin):
-    list_display = ['state_code', 'last_update_time','creation_date']
+    list_display = ['state_code', 'last_update_time', 'creation_date']
+
+
+@admin.register(IndiaHistory)
+class IndiaHistoryAdmin(admin.ModelAdmin):
+    list_display = ['state_code', 'last_update_time', 'creation_date']

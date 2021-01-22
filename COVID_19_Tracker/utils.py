@@ -1,6 +1,9 @@
-import requests
 from datetime import datetime
-from .models import Global, Countries, CountriesHistory,India
+
+import requests
+
+from .models import Global, Countries, CountriesHistory, India, IndiaHistory
+
 
 def fetchCovidGlobalData():
     r = requests.get('https://api.covid19api.com/summary')
@@ -17,7 +20,11 @@ def fetchCovidIndiaData():
 def globalData():
     r = fetchCovidGlobalData()
     global_data = r['Global']
+    # global_data_date = r['Date']
+    # print("global data date:",global_data_date)
     c = r['Countries']
+    global_data_date = r['Countries'][1]["Date"]
+    print("global data date:", global_data_date)
     global_datanew = None
     countries_data_new = None
     for i in range(len(c)):
@@ -65,7 +72,7 @@ def globalData():
 
 
     if Global.objects.filter(gid=global_data['ID']).exists():
-        h=1
+        h = 1
     else:
         Global.objects.create(gid=global_data['ID'],
                               newConfirmed=int(global_data['NewConfirmed']),
@@ -74,9 +81,12 @@ def globalData():
                               totalDeaths=int(global_data['TotalDeaths']),
                               newRecovered=int(global_data['NewRecovered']),
                               totalRecoverd=int(global_data['TotalRecovered']),
+                              update_date=global_data_date,
                               )
 
 
+def indiahistory():
+    pass
 
 def indiaData():
 
@@ -105,7 +115,20 @@ def indiaData():
         elif statechanged == "UN":
             continue
         if India.objects.filter(state_code=statechanged).exists():
-            india=India.objects.get(state_code=statechanged)
+            if not India.objects.filter(last_update_time=date).exists():
+                IndiaHistory.objects.create(state_code=statechanged,
+                                            state=statewise['state'],
+                                            active=statewise['active'],
+                                            confirmed=statewise['confirmed'],
+                                            new_confirmed=statewise['deltaconfirmed'],
+                                            deaths=statewise['deaths'],
+                                            new_deaths=statewise['deltadeaths'],
+                                            recovered=statewise['deltarecovered'],
+                                            new_recovered=statewise['recovered'],
+                                            last_update_time=date
+                                            )
+            # update the data
+            india = India.objects.get(state_code=statechanged)
             india.state = statewise['state']
             india.state_code = statechanged
             india.active = statewise['active']
@@ -113,18 +136,10 @@ def indiaData():
             india.new_confirmed = statewise['deltaconfirmed']
             india.deaths = statewise['deaths']
             india.new_deaths = statewise['deltadeaths']
-            india.new_recovered =statewise['deltarecovered']
-            india.recovered =statewise['recovered']
+            india.new_recovered = statewise['deltarecovered']
+            india.recovered = statewise['recovered']
             india.last_update_time = date
             india.save()
-            #                      confirmed=statewise['confirmed'],
-            #                      deaths=statewise['deaths'],
-            #                      new_confirmed=statewise['deltaconfirmed'],
-            #                      new_deaths=statewise['deltadeaths'],
-            #                      new_recovered=statewise['deltarecovered'],
-            #                      recovered=statewise['recovered'],
-            #                      last_update_time=date,
-            #                      )
         else:
             India.objects.create(state=statewise['state'],
                                  state_code=statechanged,
