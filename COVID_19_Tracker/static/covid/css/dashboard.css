@@ -189,7 +189,7 @@ body{
     color:#AEAED5;
 }
 .text-size{
-    font-size: 18px;
+    font-size: 1.4rem;
 }
 .border{
     border-radius: 10px;
@@ -265,8 +265,8 @@ body{
         height:2rem;
     }
     .text-size{
-        font-size: 14px;
-        margin-left: -10px;
+        font-size: 1rem;
+        margin-left: 0;
     }
     i{
         font-size:0.7rem;

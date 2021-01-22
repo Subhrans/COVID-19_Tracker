@@ -28,3 +28,9 @@ input[type="search" i]{
     width:22ch;
     }
 }
+@media (max-width:768px){
+ .dataTables_wrapper{
+    z-index:999;
+    overflow:scroll;
+}
+}

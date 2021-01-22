@@ -85,9 +85,6 @@ def globalData():
                               )
 
 
-def indiahistory():
-    pass
-
 def indiaData():
 
     r=fetchCovidIndiaData()

@@ -175,7 +175,7 @@ $(document).ready( function () {
     });
     $("#table_id_filter").addClass("d-none");
 
-} );
+
         var bubble_map = new Datamap({
     element: document.getElementById('india'),
     scope: 'india',
@@ -201,7 +201,7 @@ $(document).ready( function () {
     setProjection: function (element) {
         var projection = d3.geo.mercator()
             .center([78.9629, 23.5937]) // always in [East Latitude, North Longitude]
-            .scale(element.clientWidth+100);
+            .scale(element.clientWidth);
         var path = d3.geo.path().projection(projection);
         return { path: path, projection: projection };
     }
@@ -209,7 +209,7 @@ $(document).ready( function () {
 
 let bubbles = [
     {% for data in indiadata %}
-    {% if data.state == "" or data.%}
+    {% if data.state == "" %}
         {% comment %} not data {% endcomment %}
     {% else %}
     {
@@ -239,6 +239,6 @@ setTimeout(() => { // only start drawing bubbles on the map when map has rendere
     });
 }, 1000);
 
-
+} );
 </script>
 {% endblock %}

@@ -11,13 +11,15 @@ class GlobalAdmin(admin.ModelAdmin):
 
 @admin.register(Countries)
 class CountriesAdmin(admin.ModelAdmin):
-    list_display = ['cid', 'date']
+    list_display = ['country', 'date','countryCode']
+    search_fields = ['countryCode','country']
 
 
 @admin.register(CountriesHistory)
 class CountriesHistoryAdmin(admin.ModelAdmin):
-    list_display = ['saved_date', 'date']
-    list_display_links = ['saved_date', 'date']
+    list_display = ['countryCode','country','saved_date', 'date']
+    list_display_links = ['saved_date', 'country','countryCode','date']
+    search_fields = ['countryCode', 'country']
 
 
 @admin.register(India)

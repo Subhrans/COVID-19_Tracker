@@ -13,8 +13,6 @@
 {% include 'covid/navbar.html' %}
 {% include 'covid/content.html' %}
 {% include 'covid/TableData.html' %}
-
-
 <!--    <div id="canada" style="height: 600px; width: 900px;"></div>-->
 {% endblock %}
 
@@ -24,21 +22,21 @@
 <script src="{% static 'covid/js/dashboard.js' %}"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
-
+<!--<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>-->
+<script src="{% static 'covid/js/worldMap.js' %}"></script>
 <script>
 $(document).ready(function(){
-    var bubble_map = new Datamap({
-    element: document.getElementById('india'),
-    scope: 'india',
+   // example data from server
 
+    // render map
+     var bubble_map = new Datamap({
+    element: document.getElementById('india'),
+    scope: 'world',
     geographyConfig: {
         popupOnHover: true,
         highlightOnHover: true,
         borderColor: '#444',
         borderWidth: 0.5,
-        dataUrl: 'https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json'
-        //dataJson: topoJsonData
     },
     fills: {
         'MAJOR': '#306596',
@@ -53,68 +51,42 @@ $(document).ready(function(){
     setProjection: function (element) {
         var projection = d3.geo.mercator()
             .center([78.9629, 23.5937]) // always in [East Latitude, North Longitude]
-            .scale(1000);
+            .scale(element.clientWidth/7)
+            .translate([((element.clientWidth)/2)+200,((element.clientHeight)/2)+60]);
         var path = d3.geo.path().projection(projection);
         return { path: path, projection: projection };
     }
 });
-
 let bubbles = [
+    {% for data in countries_data_new %}
+    {% if data.countryCode == "FM" or data.countryCode == "SG" or data.countryCode == "SC" or data.countryCode == "ST" or data.countryCode == "SM" or data.countryCode == "WS" or data.countryCode == "VC" or data.countryCode == "LC" or data.countryCode == "KN" or data.countryCode == "PS" or data.countryCode == "MC" or data.countryCode == "MU" or data.countryCode == "MH" or data.countryCode == "MT" or data.countryCode == "MV" or data.countryCode == "LI" or data.countryCode == "LA" or data.countryCode == "VA" or data.countryCode == "GD" or data.countryCode == "DM" or data.countryCode == "CI" or data.countryCode == "KM" or data.countryCode == "CV" or data.countryCode == "BB" or data.countryCode == "BH" or data.countryCode == "AG" or data.countryCode == "AD" %}
+        {% comment %} not data {% endcomment %}
+    {% else %}
     {
-        centered: "MH",
+        centered: "{{data.countryCode}}",
         fillKey: "MAJOR",
-        radius: 20,
-        state: "Maharastra"
+        radius: 10,
+        state: "{{data.country}}",
+        confirmed:{{data.totalConfirmed}},
+        deaths:{{data.totalDeaths}},
+        recovered:{{data.totalRecoverd}},
+        new_confirmed:{{data.newConfirmed}},
+        new_deaths:{{data.newDeaths}},
+
     },
-    {
-        centered: "AP",
-        fillKey: "MAJOR",
-        radius: 22,
-        state: "Andhra Pradesh"
-    },
-    {
-        centered: "TN",
-        fillKey: "MAJOR",
-        radius: 16,
-        state: "Tamil Nadu"
-    },
-    {
-        centered: "WB",
-        fillKey: "MEDIUM",
-        radius: 15,
-        state: "West Bengal"
-    },
-    {
-        centered: "MP",
-        fillKey: "MEDIUM",
-        radius: 15,
-        state: "Madhya Pradesh",
-        confirmed:"1020"
-    },
-    {
-        centered: "UP",
-        fillKey: "MINOR",
-        radius: 8,
-        state: "Uttar Pradesh"
-    },
-    {
-        centered: "RJ",
-        fillKey: "MINOR",
-        radius: 7,
-        state: "Rajasthan"
-    }
+    {% endif %}
+    {% endfor %}
 
 ]
 // // ISO ID code for city or <state></state>
 setTimeout(() => { // only start drawing bubbles on the map when map has rendered completely.
     bubble_map.bubbles(bubbles, {
         popupTemplate: function (geo, data) {
-            console.log(data);
-            return `<div class="hoverinfo">city: ${data.state}, Slums: ${data.radius}%</div>`;
+            return `<div class="hoverinfo">city: ${data.state}<br> Confirmed:${data.confirmed}<br> deaths:${data.deaths}<br> recovered:${data.recovered}<br> </div>`;
         }
     });
 }, 1000);
-});
+   });
 
 </script>
 

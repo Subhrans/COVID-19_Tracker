@@ -2,3 +2,6 @@ datamaps==1.1.0
 Django==3.0.1
 Jinja2==2.11.2
 requests==2.23.0
+gunicorn
+django-heroku
+python-decouple
