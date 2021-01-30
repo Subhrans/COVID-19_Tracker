@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% load static %}
-{% block title %} {% if total %} India {% else %}{{country.country}} {% endif %} {% endblock %}
+{% block title %} {% if total %} India {% elif global %}Global {% else %}{{country.country}} {% endif %} {% endblock %}
 {% block css %}
 <link href="{% static 'covid/css/indiadata.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 {% include 'covid/navbar.html' %}
 <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row align-items-center">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
+            {% if total %}
             <div class="row">
                 <p class="offset-4 text-muted">Search your disctrict or state</p>
                 <span class="offset-6 mb-1 search-upper d-none d-sm-inline-block"></span>
@@ -22,6 +23,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="row">
                 {% if total %}
                 {% include 'covid/IndiaData.html' %}

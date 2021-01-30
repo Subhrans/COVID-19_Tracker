@@ -35,3 +35,6 @@ input[type="search" i]{
 .today::before{
     content:"+";
 }
+.leaflet-control-container::nth-child(2){
+    display:none;
+}

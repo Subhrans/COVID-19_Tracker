@@ -24,7 +24,7 @@ def search_country(request):
                 map = folium.Map(location=(indialoc.latitude,indialoc.longitude))
                 for i in indiadata:
                     statelocation=(i.lat,i.lon)
-                    tooltip_text = f"{i.state}<br>" \
+                    tooltip_text = f"{i.state.capitalize()}<br>" \
                                    f"Confirmed: {i.confirmed}<br>" \
                                    f"Recovered: {i.recovered}"
                     rad = sqrt(i.confirmed) / 20
@@ -44,9 +44,9 @@ def search_country(request):
                         print(pk)
 
                     else:
-                        location = (i.lat, i.lon)
+                        location = (i.lat   , i.lon)
                         rad = sqrt(i.totalConfirmed) / 100 + 3
-                        tooltip_text = f"{pk}<br>" \
+                        tooltip_text = f"{str(pk).capitalize()}<br>" \
                                        f"Confirmed: {i.totalConfirmed}<br>" \
                                        f"Recovered: {i.totalRecoverd}"
                         folium.CircleMarker(location=location, radius=rad, tooltip=tooltip_text, fill=True,
