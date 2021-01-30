@@ -115,7 +115,6 @@ def search_country(request):
                              f"Recovered: {i.totalRecoverd}"
                 folium.CircleMarker(location=location, radius=rad, tooltip=tooltip_text,fill=True,fill_color="#428bca").add_to(map)
 
-
     map=map._repr_html_()
     context = {'country': country,
                'indiadata':indiadata,
