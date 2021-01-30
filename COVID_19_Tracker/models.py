@@ -26,6 +26,8 @@ class Countries(models.Model):
     totalDeaths = models.IntegerField()
     newRecovered = models.IntegerField()
     totalRecoverd = models.BigIntegerField()
+    lat=models.DecimalField(max_digits=10000,decimal_places=20,blank=True,null=True)
+    lon=models.DecimalField(max_digits=10000,decimal_places=20,blank=True,null=True)
     date = models.DateTimeField()
 
     def __str__(self):

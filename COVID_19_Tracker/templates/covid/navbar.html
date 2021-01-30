@@ -13,13 +13,17 @@
                     <a class="nav-link" href="{% url 'COVID-19:home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
 
-                <form action="{% url 'COVID-19:search_country' %}" method="GET">
+                <form action="{% url 'COVID-19:search_country' %}" method="POST">
+                    {% csrf_token %}
                     <div class="input-group  ml-4 mr-4 rounded">
                         <div class="input-group-prepend">
                             <button class="btn border-0" type="submit"><i class="fas fa-search"></i>
                             </button>
                         </div>
-                        <input class="form-control bg-light border-0 search" placeholder="Type city name" type="search" name="search_input">
+                        {% for form in searchform %}
+                            {{form}}
+                        {% endfor %}
+<!--                        <input class="form-control bg-light border-0 search" placeholder="Type city name" type="search" name="search_input">-->
 
                     </div>
                 </form>
