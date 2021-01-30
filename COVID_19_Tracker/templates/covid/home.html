@@ -18,18 +18,22 @@
 
 
 {% block js %}
-<script src="{% static 'covid/js/map.js' %}"></script>
+
 <script src="{% static 'covid/js/dashboard.js' %}"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+
 <!--<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>-->
 <script src="{% static 'covid/js/worldMap.js' %}"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
+
 <script>
 $(document).ready(function(){
    // example data from server
 
     // render map
      var bubble_map = new Datamap({
+       responsive:true,
     element: document.getElementById('india'),
     scope: 'world',
     geographyConfig: {
@@ -51,12 +55,16 @@ $(document).ready(function(){
     setProjection: function (element) {
         var projection = d3.geo.mercator()
             .center([78.9629, 23.5937]) // always in [East Latitude, North Longitude]
-            .scale(element.clientWidth/7)
-            .translate([((element.clientWidth)/2)+200,((element.clientHeight)/2)+60]);
+            .scale(element.clientWidth/10+60)
+            .translate([((element.clientWidth)/2)+70,((element.clientHeight)/2)+60]);
         var path = d3.geo.path().projection(projection);
         return { path: path, projection: projection };
     }
 });
+ $(window).on('resize', function() {
+       bubble_map.resize();
+    });
+
 let bubbles = [
     {% for data in countries_data_new %}
     {% if data.countryCode == "FM" or data.countryCode == "SG" or data.countryCode == "SC" or data.countryCode == "ST" or data.countryCode == "SM" or data.countryCode == "WS" or data.countryCode == "VC" or data.countryCode == "LC" or data.countryCode == "KN" or data.countryCode == "PS" or data.countryCode == "MC" or data.countryCode == "MU" or data.countryCode == "MH" or data.countryCode == "MT" or data.countryCode == "MV" or data.countryCode == "LI" or data.countryCode == "LA" or data.countryCode == "VA" or data.countryCode == "GD" or data.countryCode == "DM" or data.countryCode == "CI" or data.countryCode == "KM" or data.countryCode == "CV" or data.countryCode == "BB" or data.countryCode == "BH" or data.countryCode == "AG" or data.countryCode == "AD" %}
@@ -65,7 +73,7 @@ let bubbles = [
     {
         centered: "{{data.countryCode}}",
         fillKey: "MAJOR",
-        radius: 10,
+        radius: Math.sqrt({{data.totalConfirmed}})/60+3,
         state: "{{data.country}}",
         confirmed:{{data.totalConfirmed}},
         deaths:{{data.totalDeaths}},
@@ -87,7 +95,6 @@ setTimeout(() => { // only start drawing bubbles on the map when map has rendere
     });
 }, 1000);
    });
-
 </script>
 
 {% endblock %}

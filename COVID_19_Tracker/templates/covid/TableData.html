@@ -1,33 +1,31 @@
 {% load humanize %}
-<div class="container border p-4 bg-white shadow-box table-Data">
-    <table class="display table table-hover" id="table_id">
+<div class="container border p-4 bg-white shadow-box table-Data w-100">
+    <table class="display responsive table table-hover stripe row-border order-column wrap w-100" id="table_id">
         <thead>
         <tr class="bg-primary text-white">
             <th>Country</th>
-            <th>Country Code</th>
             <th>New Confirmed</th>
             <th>Total Confirmed</th>
             <th>New Deaths</th>
             <th>Total Deaths</th>
             <th>New Recovered</th>
             <th>Total Recoverd</th>
-            <th>Date</th>
         </tr>
         </thead>
         <tbody>
         {% for country_Data in countries_data_new %}
         <tr>
             <td>{{country_Data.country}}</td>
-            <td>{{country_Data.countryCode}}</td>
             <td>{{country_Data.newConfirmed}}</td>
             <td>{{country_Data.totalConfirmed}}</td>
             <td>{{country_Data.newDeaths}}</td>
             <td>{{country_Data.totalDeaths}}</td>
             <td>{{country_Data.newRecovered}}</td>
             <td>{{country_Data.totalRecoverd}}</td>
-            <td>{{country_Data.date|date:"d M Y"}}</td>
         </tr>
         {% endfor %}
+
+
 
         </tbody>
     </table>

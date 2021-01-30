@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% load static %}
-{% block title %} India {% endblock %}
+{% block title %} {{country.country}} {% endblock %}
 {% block css %}
 <link href="{% static 'covid/css/indiadata.css' %}" rel="stylesheet">
 {% endblock %}
@@ -28,20 +28,21 @@
                     <div class="card alert-danger border-0 w-100">
                         <div class="card-body">
                             <h5 class="card-title">Confirmed</h5>
-                            <small class="text-muted counterUp">+{{total.new_confirmed}}</small>
+                            <small class="text-muted counterUp today">{{country.newConfirmed}}</small>
                             <p class="card-text h2">
-                                {{total.confirmed|intword|slice:":6"|upper}}
+                                {{country.totalConfirmed|intword|slice:":6"|upper}}
                             </p>
                         </div>
                     </div>
                     <!--    End - card Area  -->
                 </div>
+                {% if country.active %}
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col ">
                     <!--    Card Area    -->
                     <div class="card alert-primary border-0 w-100">
                         <div class="card-body">
                             <h5 class="card-title">Active</h5>
-                            <small class="text-muted counterUp">+{{total.active}}</small>
+                            <small class="text-muted counterUp today">{{total.active}}</small>
                             <p class="card-text counterUp h3">
                                 {{total.active|intword}}
                             </p>
@@ -49,15 +50,16 @@
                     </div>
                     <!--    End - card Area  -->
                 </div>
+                {% endif %}
 
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
                     <!--    Card Area    -->
                     <div class="card alert-success border-0 w-100">
                         <div class="card-body">
                             <h5 class="card-title">Recovered</h5>
-                            <small class="text-muted counterUp">+{{total.new_recovered}}</small>
+                            <small class="text-muted counterUp today">{{country.newRecovered}}</small>
                             <p class="card-text h2">
-                                {{total.recovered|intword|slice:":6"|upper}}
+                                {{country.totalRecoverd|intword|slice:":6"|upper}}
                             </p>
                         </div>
                     </div>
@@ -69,9 +71,9 @@
                     <div class="card alert-secondary border-0 w-100">
                         <div class="card-body">
                             <h5 class="card-title">Deaths</h5>
-                            <small class="text-muted counterUp">+{{total.new_deaths}}</small>
+                            <small class="text-muted counterUp today">{{country.newDeaths}}</small>
                             <p class="card-text counterUp h3">
-                                {{total.deaths|intword|slice:":6"|upper}}
+                                {{country.totalDeaths|intword|slice:":6"|upper}}
                             </p>
                         </div>
                     </div>
@@ -128,19 +130,23 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col">
                     <div class="row">
                         <div class="col">
-                            <p class="h2 alert-danger text-danger w-25 text-center rounded pt-1 pb-1">India</p>
+                            <p class="h2 alert-danger text-danger w-50 text-center rounded pt-1 pb-1">{{country.country|capfirst}}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
+                            {% if total %}
                             <small class="text-muted">Last Update on {{total.last_update_time|date:"d M Y , h:i A"}} ({{total.last_update_time|naturaltime}})</small>
+                            {% else %}
+                            <small class="text-muted">Last Update on {{country.date|date:"d M Y , h:i A"}} ({{country.date|naturaltime}})</small>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <div id="india" style="height: 600px; width: 100%;"></div>
+                    {{map|safe}}
                 </div>
 
             </div>
@@ -151,10 +157,10 @@
 {% endblock %}
 
 {% block js %}
-<script src="https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/datamaps.none.js"></script>
 
 <script>
 $(".counterUp").counterUp({delay:10,time:1000});
+
 var typed = new Typed(".search",{
     strings:['Type City name',''],
     typeSpeed:30,
@@ -172,79 +178,6 @@ $(document).ready( function () {
     data.search($(this).val()).draw();
     });
     $("#table_id_filter").addClass("d-none");
-
-
-        var bubble_map = new Datamap({
-        responsive:true,
-    element: document.getElementById('india'),
-    scope: 'india',
-
-    geographyConfig: {
-        popupOnHover: true,
-        highlightOnHover: true,
-        borderColor: '#444',
-        borderWidth: 0.5,
-        dataUrl: 'https://rawgit.com/Anujarya300/bubble_maps/master/data/geography-data/india.topo.json'
-        //dataJson: topoJsonData
-    },
-
-    fills: {
-        'MAJOR': '#306596',
-        'MEDIUM': '#0fa0fa',
-        'MINOR': '#bada55',
-        defaultFill: '#dddddd'
-    },
-    data: {
-        'JH': { fillKey: 'MINOR' },
-        'MH': { fillKey: 'MINOR' }
-    },
-    setProjection: function (element) {
-        var projection = d3.geo.mercator()
-            .center([78.9629, 23.5937]) // always in [East Latitude, North Longitude]
-            .scale(element.clientWidth/2+700)
-            .translate([((element.clientWidth)/5)+100,((element.clientHeight)/4)+100]);
-        var path = d3.geo.path().projection(projection);
-        return { path: path, projection: projection };
-    }
-});
- $(window).on('resize', function() {
-       bubble_map.resize();
-    });
-
-
-let bubbles = [
-    {% for data in indiadata %}
-    {% if data.state == "" %}
-        {% comment %} not data {% endcomment %}
-    {% else %}
-    {
-        centered: "{{data.state_code}}",
-        fillKey: "MAJOR",
-        radius: 20,
-        state: "{{data.state}}",
-        confirmed:{{data.confirmed}},
-        active:{{data.active}},
-        deaths:{{data.deaths}},
-        recovered:{{data.recovered}},
-        new_confirmed:{{data.new_confirmed}},
-        new_deaths:{{data.new_deaths}},
-
-    },
-    {% endif %}
-    {% endfor %}
-
-
-]
-// // ISO ID code for city or <state></state>
-setTimeout(() => { // only start drawing bubbles on the map when map has rendered completely.
-    bubble_map.bubbles(bubbles, {
-        popupTemplate: function (geo, data) {
-            console.log(data);
-            return `<div class="hoverinfo">city: ${data.state}<br> Confirmed:${data.confirmed}<br> deaths:${data.deaths}<br> recovered:${data.recovered}<br> active:${data.active}<br> </div>`;
-        }
-    });
-}, 1000);
-
 } );
 </script>
 {% endblock %}

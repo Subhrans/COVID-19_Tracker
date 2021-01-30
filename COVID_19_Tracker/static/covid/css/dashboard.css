@@ -237,12 +237,17 @@ body{
     margin-top:5rem;
 }
 .table-row{
-    margin:4rem 0 !important;
+    margin:0 0 !important;
+    max-width:10px !important;
 }
-/*table.dataTable tbody th, table.dataTable tbody td
+table.dataTable tbody th, table.dataTable tbody td
 {
-    padding: 1rem 1.5rem !important;
-}*/
+    max-width:0;
+}
+table.dataTable tbody td{
+
+}
+
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
  .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
@@ -272,9 +277,6 @@ body{
         font-size:0.7rem;
     }
 }
-.map-margin{
-        margin-left: -250px;
-}
-.datamaps-hoverover{
-   margin-left: -250px;
+svg{
+overflow:scroll !important;
 }

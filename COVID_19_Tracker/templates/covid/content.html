@@ -4,7 +4,7 @@
         <div class="col d-flex">
             Last Update:
             <p class="text-primary ml-4">
-                {{global_data_new.date|date:"d M Y"}} ({{global_data_new.date|naturaltime}})
+                {{global_data_new.update_date|date:"d M Y"}} ({{global_data_new.update_date|naturaltime}})
             </p>
         </div>
     </div>
@@ -101,7 +101,7 @@
 
         <!-- Map area -->
         <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12 bg-white border shadow-box">
-            <div class="map-margin" id="india" style="height: 600px; width: 900px;"></div>
+            <div class="map-margin" id="india" style="height: 600px; width: 100%;"></div>
         </div>
         <!-- End of map area -->
     </div>

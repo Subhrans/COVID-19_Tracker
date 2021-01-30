@@ -8,9 +8,7 @@
 .map-margin{
         margin-left: -250px;
 }
-.datamaps-hoverover{
-   margin-left: -250px;
-}
+
 .dataTables_wrapper{
     z-index:999;
 }
@@ -33,4 +31,7 @@ input[type="search" i]{
     z-index:999;
     overflow:scroll;
 }
+}
+.today::before{
+    content:"+";
 }

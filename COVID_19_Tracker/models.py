@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Global(models.Model):
-    gid = models.CharField(max_length=100000, unique=True)
+    gid = models.CharField(max_length=100000)
     newConfirmed = models.IntegerField()
     totalConfirmed = models.IntegerField()
     newDeaths = models.IntegerField()
@@ -76,3 +76,7 @@ class IndiaHistory(models.Model):
     new_recovered = models.BigIntegerField()
     last_update_time = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now_add=True)
+
+class CountryCode(models.Model):
+    iso=models.CharField(max_length=128)
+    name=models.CharField(max_length=1000)

@@ -1,5 +1,8 @@
 $(document).ready( function () {
-    let data = $('#table_id').DataTable();
+     var table = $('#table_id').DataTable( {
+
+    } );
+
 } );
 function myfunc(){
     let pathElement = document.getElementsByTagName("path");
