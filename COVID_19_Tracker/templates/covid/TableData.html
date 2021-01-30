@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for country_Data in countries_data_new %}
+        {% for country_Data in country_all %}
         <tr>
             <td>{{country_Data.country}}</td>
             <td>{{country_Data.newConfirmed}}</td>
@@ -24,8 +24,6 @@
             <td>{{country_Data.totalRecoverd}}</td>
         </tr>
         {% endfor %}
-
-
 
         </tbody>
     </table>

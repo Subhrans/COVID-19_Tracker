@@ -1,9 +1,7 @@
 from datetime import datetime
-
-import requests
-
+import requests,folium
 from .models import Global, Countries, CountriesHistory, India, IndiaHistory
-
+from math import sqrt
 
 def fetchCovidGlobalData():
     r = requests.get('https://api.covid19api.com/summary')
@@ -149,3 +147,30 @@ def indiaData():
                                  recovered=statewise['recovered'],
                                  last_update_time=date,
                                  )
+
+
+def get_global_map(map):
+    # map = folium.Map()  # fetch live location   #context
+    country_all = Countries.objects.all()  # context
+
+    for i in country_all:
+        pk = i.slugId
+        # countryloc = geolocators.geocode(pk)
+        if i.lat == None:
+            print(pk)
+
+        else:
+            # print("country_name:", pk, "lat: ", i.lat, "lon:", i.lon)
+            # getcountry=Countries.objects.get(slugId=pk)
+            # getcountry.lat=countryloc.latitude
+            # getcountry.lon=countryloc.longitude
+            # getcountry.save()
+            location = (i.lat, i.lon)
+            rad = sqrt(i.totalConfirmed) / 100 + 3
+            tooltip_text = f"{pk}<br>" \
+                           f"Confirmed: {i.totalConfirmed}<br>" \
+                           f"Recovered: {i.totalRecoverd}"
+            folium.CircleMarker(location=location, radius=rad, tooltip=tooltip_text, fill=True,
+                                fill_color="#428bca").add_to(map)
+
+        return map, country_all

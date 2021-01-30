@@ -25,7 +25,7 @@ class CountriesHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(India)
 class IndiaAdmin(admin.ModelAdmin):
-    list_display = ['state_code', 'last_update_time', 'creation_date']
+    list_display = ['state_code', 'state','last_update_time', 'creation_date']
 
 
 @admin.register(IndiaHistory)

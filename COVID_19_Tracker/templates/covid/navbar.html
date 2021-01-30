@@ -1,6 +1,6 @@
 <div class="container-fluid bg-white mb-5 pb-2 pt-2 shadow sticky-top top-fixed">
     <nav class="navbar navbar-expand-md navbar-light bg-white ">
-        <a class="navbar-brand" href="{% url 'COVID-19:home' %}">COVID-19</a>
+        <a class="navbar-brand" href="{% url 'COVID-19:search_country' %}">COVID-19</a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler"
                 data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
@@ -10,39 +10,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'COVID-19:home' %}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'COVID-19:search_country' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
 
                 <form action="{% url 'COVID-19:search_country' %}" method="POST">
                     {% csrf_token %}
                     <div class="input-group  ml-4 mr-4 rounded">
+
+                        {% for form in searchform %}
+                            {{form}}
+                        {% endfor %}
                         <div class="input-group-prepend">
                             <button class="btn border-0" type="submit"><i class="fas fa-search"></i>
                             </button>
                         </div>
-                        {% for form in searchform %}
-                            {{form}}
-                        {% endfor %}
-<!--                        <input class="form-control bg-light border-0 search" placeholder="Type city name" type="search" name="search_input">-->
-
                     </div>
                 </form>
-
-                <!--  dropdown  -->
-                <li class="nav-item dropdown mr-4 ml-5">
-                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
-                       data-toggle="dropdown"
-                       href="#" id="navbarDropdown" role="button">
-                        Country
-                    </a>
-                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'COVID-19:india' %}">India</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item ml-5">
                     <a class="nav-link" href="#">Statistics</a>
                 </li>
             </ul>

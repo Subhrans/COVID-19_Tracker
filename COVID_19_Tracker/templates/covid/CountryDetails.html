@@ -8,7 +8,7 @@
 {% block content %}
 {% include 'covid/navbar.html' %}
 <div class="container-fluid">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
             <div class="row">
                 <p class="offset-4 text-muted">Search your disctrict or state</p>
@@ -26,14 +26,17 @@
                 {% if total %}
                 {% include 'covid/IndiaData.html' %}
                 {% else %}
+
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
                     <!--    Card Area    -->
                     <div class="card alert-danger border-0 w-100">
                         <div class="card-body">
                             <h5 class="card-title">Confirmed</h5>
-                            <small class="text-muted counterUp today">{{country.newConfirmed}}</small>
-                            <p class="card-text h2">
-                                {{country.totalConfirmed|intword|slice:":6"|upper}}
+                            <small class="text-muted counterUp today">
+                                {{country.newConfirmed}}
+                            </small>
+                            <p class="card-text h3">
+                                {{country.totalConfirmed|intword|slice:":7"|upper}}
                             </p>
 
                         </div>
@@ -62,7 +65,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Recovered</h5>
                             <small class="text-muted counterUp today">{{country.newRecovered}}</small>
-                            <p class="card-text h2">
+                            <p class="card-text h3">
                                 {{country.totalRecoverd|intword|slice:":6"|upper}}
                             </p>
                         </div>
@@ -76,8 +79,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Deaths</h5>
                             <small class="text-muted counterUp today">{{country.newDeaths}}</small>
-                            <p class="card-text counterUp h3">
-                                {{country.totalDeaths|intword|slice:":6"|upper}}
+                            <p class="card-text  h3">
+                                {{country.totalDeaths|intword|slice:":5"|upper}}
                             </p>
                         </div>
                     </div>
@@ -86,7 +89,49 @@
                 {% endif %}
             </div>
 
-            <!--     Data table show with in the gap       -->
+
+
+
+
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h2 alert-danger text-danger w-50 text-center rounded pt-1 pb-1">
+                                {% if global %}
+                                Global
+                                {% elif total %}
+                                India
+                                {% else %}
+                                {{country.country|capfirst}}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {% if total %}
+                            <small class="text-muted">Last Update on {{total.last_update_time|date:"d M Y , h:i A"}}
+                                ({{total.last_update_time|naturaltime}})</small>
+                            {% else %}
+                            <small class="text-muted">Last Update on {{country.date|date:"d M Y , h:i A"}}
+                                ({{country.date|naturaltime}})</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{map|safe}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--     Data table show with in the gap       -->
 
             <div class="row mt-5">
                 {% if total %}
@@ -124,44 +169,12 @@
                     </div>
                     <!-- End of the Table Data -->
                 </div>
+                {% elif global %}
+                    {% include 'covid/TableData.html' %}
                 {% else %}
                     <p class="text-secondary ml-5">Sorry the Table only available for India And global Only</p>
                 {% endif %}
             </div>
-
-
-
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col">
-                    <div class="row">
-                        <div class="col">
-                            <p class="h2 alert-danger text-danger w-50 text-center rounded pt-1 pb-1">
-                                {{country.country|capfirst}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            {% if total %}
-                            <small class="text-muted">Last Update on {{total.last_update_time|date:"d M Y , h:i A"}}
-                                ({{total.last_update_time|naturaltime}})</small>
-                            {% else %}
-                            <small class="text-muted">Last Update on {{country.date|date:"d M Y , h:i A"}}
-                                ({{country.date|naturaltime}})</small>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{map|safe}}
-                </div>
-
-            </div>
-        </div>
-    </div>
 
 </div>
 {% endblock %}
