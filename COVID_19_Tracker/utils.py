@@ -68,11 +68,11 @@ def globalData():
                                      date=countries_data['Date'],
                                      )
 
-
-    if Global.objects.filter(gid=global_data['ID']).exists():
+    print(global_data)
+    if Global.objects.filter(update_date=global_data_date).exists():
         h = 1
     else:
-        Global.objects.create(gid=global_data['ID'],
+        Global.objects.create(
                               newConfirmed=int(global_data['NewConfirmed']),
                               totalConfirmed=int(global_data['TotalConfirmed']),
                               newDeaths=int(global_data['NewDeaths']),

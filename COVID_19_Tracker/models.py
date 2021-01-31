@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Global(models.Model):
-    gid = models.CharField(max_length=100000)
+    gid = models.CharField(max_length=100000,null=True,blank=True)
     newConfirmed = models.IntegerField()
     totalConfirmed = models.IntegerField()
     newDeaths = models.IntegerField()

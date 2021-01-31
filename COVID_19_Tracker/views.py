@@ -21,7 +21,7 @@ def search_country(request):
                 indiadata = India.objects.exclude(state_code="TT")  # context
                 total = India.objects.get(state_code="TT")  # context
                 indialoc=geolocators.geocode(pk)
-                map = folium.Map(location=(indialoc.latitude,indialoc.longitude))
+                map = folium.Map(location=(indialoc.latitude,indialoc.longitude),zoom_start=4.5)
                 for i in indiadata:
                     statelocation=(i.lat,i.lon)
                     tooltip_text = f"{i.state.capitalize()}<br>" \
@@ -35,7 +35,7 @@ def search_country(request):
                 country = Countries.objects.get(country__contains=pk)  # context
                 location = (country.lat, country.lon)
 
-                map = folium.Map(location=location,min_zoom=2)
+                map = folium.Map(location=location,min_zoom=2,zoom_start=5)
                 country_all = Countries.objects.all()  # context
 
                 for i in country_all:
