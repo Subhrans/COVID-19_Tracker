@@ -7,6 +7,7 @@ from .models import Global, Countries, CountriesHistory, India, IndiaHistory,Cou
 @admin.register(Global)
 class GlobalAdmin(admin.ModelAdmin):
     list_display = ['gid', 'date','update_date']
+    list_display_links = ['gid','date','update_date']
     search_fields = ['date']
 
 

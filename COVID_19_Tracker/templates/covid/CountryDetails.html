@@ -35,17 +35,17 @@
     <div class="row align-items-center">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
             {% if total %}
-            <div class="row">
+            <div class="row d-none d-sm-flex">
                 <p class="offset-4 text-muted">Search your disctrict or state</p>
                 <span class="offset-6 mb-1 search-upper d-none d-sm-inline-block"></span>
-                <div class="input-group mb-3 shadow mb-5 p-2 ml-4 mr-4 rounded dataTables_filter">
-                    <input area-controls="table_id" aria-describedby="table_id_info"
-                           class="form-control border-0 search" placeholder="Type city name" type="search">
-                    <div class="input-group-append">
-                        <button class="btn border-0" type="button"><i class="fas fa-search"></i>
-                        </button>
+                    <div class="input-group mb-3 shadow mb-5 p-2 ml-4 mr-4 rounded dataTables_filter">
+                        <input area-controls="table_id" aria-describedby="table_id_info"
+                               class="form-control border-0 search" placeholder="Type state or district name" type="search">
+                        <div class="input-group-append">
+                            <button class="btn border-0" type="submit"><i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
             </div>
             {% endif %}
             <div class="row">
@@ -159,6 +159,20 @@
     <div class="row mt-5">
         {% if total %}
         <div class="col-xl-12 col-lg-12 col-md-12">
+            {% if total %}
+            <div class="row  d-sm-none">
+                <p class="offset-4 text-muted">Search your disctrict or state</p>
+                <span class="offset-6 mb-1 search-upper d-none d-sm-inline-block"></span>
+                    <div class="input-group mb-3 shadow mb-5 p-2 ml-4 mr-4 rounded dataTables_filter">
+                        <input area-controls="table_id" aria-describedby="table_id_info"
+                               class="form-control border-0 search" placeholder="Type state or district name" type="search">
+                        <div class="input-group-append">
+                            <button class="btn border-0" type="submit"><i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+            {% endif %}
             <div class="container shadow p-4  bg-white shadow-box table-Data">
                 <table class="display table table-hover" id="table_id">
                     <thead>
@@ -204,4 +218,30 @@
 
 {% block js %}
 <script src="{% static 'covid/js/country.js' %}"></script>
+<script>
+    $(document).ready(function(){
+
+        let listArr=[];
+        var c=0;
+       {% for i in country_name_list %}
+            listArr[c] = "{{i}}";
+            c++;
+     {% endfor %}
+     console.log(listArr);
+     var country_list_str="";
+     for( let j=0;j<listArr.length;j++)
+     {
+        country_list_str+="<b>"+listArr[j]+"</b><br>";
+      }
+      console.log(country_list_str);
+      $('#list_search').text(country_list_str);
+      $("[data-toggle='popover']").popover({
+        html:true,
+        content:function(){
+            return $('#list_search').html();
+        }
+        });
+     // $("[data-toggle='popover']").attr('data-content',country_list_str);
+    });
+</script>
 {% endblock %}

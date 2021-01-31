@@ -17,4 +17,5 @@ $(document).ready( function () {
     data.search($(this).val()).draw();
     });
     $("#table_id_filter").addClass("d-none");
+
 } );

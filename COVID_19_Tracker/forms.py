@@ -8,4 +8,10 @@ class IndiaForm(forms.ModelForm):
 
 
 class SearchLocation(forms.Form):
-    location_name=forms.CharField(max_length=1000,widget=forms.TextInput(attrs={'class':'form-control bg-light border-0 search'}))
+    location_name=forms.CharField(max_length=1000,widget=forms.TextInput(attrs={'class':'form-control bg-light border-0 search',
+                                                                                'data-toggle':'popover',
+                                                                                'title':'',
+                                                                                'data-content':'this body content',
+                                                                                'data-trigger':'focus',
+                                                                                'data-placement':'bottom',
+                                                                                }))
