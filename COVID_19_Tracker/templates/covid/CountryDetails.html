@@ -231,17 +231,20 @@
      var country_list_str="";
      for( let j=0;j<listArr.length;j++)
      {
-        country_list_str+="<b>"+listArr[j]+"</b><br>";
+        country_list_str+="<p class='h5'>"+listArr[j]+"</p><br>";
       }
       console.log(country_list_str);
-      $('#list_search').text(country_list_str);
-      $("[data-toggle='popover']").popover({
-        html:true,
-        content:function(){
-            return $('#list_search').html();
-        }
-        });
-     // $("[data-toggle='popover']").attr('data-content',country_list_str);
+
+      $("[data-toggle='popover']").popover();
+     $("[data-toggle='popover']").attr('data-content',country_list_str);
+     $('.form-control').click(function(){
+        $('.popover').addClass('overflow-hidden h-25');
+     });
+     $('.form-control').keyup(function(){
+        let data=$('.form-control').val();
+        console.log(data);
+
+     });
     });
 </script>
 {% endblock %}
