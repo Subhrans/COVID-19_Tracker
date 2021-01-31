@@ -26,15 +26,40 @@ input[type="search" i]{
     width:22ch;
     }
 }
+.today::before{
+    content:"+";
+}
+.leaflet-control-container::nth-child(2){
+    display:none !important;
+}
+.leaflet-container .leaflet-control-attribution{
+    display:none !important;
+}
 @media (max-width:768px){
  .dataTables_wrapper{
     z-index:999;
     overflow:scroll;
 }
 }
-.today::before{
-    content:"+";
+@media (max-width: 992px){
+    .h3{
+    font-size:1.6rem !important;
+    }
 }
-.leaflet-control-container::nth-child(2){
-    display:none;
+@media (max-width:768px){
+.h3{
+    font-size:1.18rem !important;
 }
+}
+@media (max-width: 576px){
+.h3{
+    font-size:1.7rem !important;
+}
+}
+@media (max-width: 452px){
+.h3{
+    font-size:1.7rem !important;
+}
+}
+
+

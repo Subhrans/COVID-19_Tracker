@@ -35,7 +35,7 @@ def search_country(request):
                 country = Countries.objects.get(country__contains=pk)  # context
                 location = (country.lat, country.lon)
 
-                map = folium.Map(location=location,)
+                map = folium.Map(location=location,min_zoom=2)
                 country_all = Countries.objects.all()  # context
 
                 for i in country_all:
@@ -58,7 +58,7 @@ def search_country(request):
         searchform=SearchLocation()             #context
 
 
-        map = folium.Map()  # fetch live location   #context
+        map = folium.Map(min_zoom=1.5)  # fetch live location   #context
         country_all = Countries.objects.all()       #context
         data=Global.objects.last()                  #context
 

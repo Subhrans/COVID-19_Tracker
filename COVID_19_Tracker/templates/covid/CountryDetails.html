@@ -8,6 +8,30 @@
 {% block content %}
 {% include 'covid/navbar.html' %}
 <div class="container-fluid">
+    <div class="row d-md-none">
+        <div class="col">
+            <p class="h2 alert-danger text-danger w-50 text-center rounded pt-1 pb-1">
+                {% if global %}
+                Global
+                {% elif total %}
+                India
+                {% else %}
+                {{country.country|capfirst}}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="row d-md-none mb-5">
+        <div class="col">
+            {% if total %}
+            <small class="text-muted">Last Update on {{total.last_update_time|date:"d M Y , h:i A"}}
+                ({{total.last_update_time|naturaltime}})</small>
+            {% else %}
+            <small class="text-muted">Last Update on {{country.date|date:"d M Y , h:i A"}}
+                ({{country.date|naturaltime}})</small>
+            {% endif %}
+        </div>
+    </div>
     <div class="row align-items-center">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
             {% if total %}
@@ -29,11 +53,11 @@
                 {% include 'covid/IndiaData.html' %}
                 {% else %}
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col mb-4">
                     <!--    Card Area    -->
                     <div class="card alert-danger border-0 w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Confirmed</h5>
+                            <h5 class="card-title h3">Confirmed</h5>
                             <small class="text-muted counterUp today">
                                 {{country.newConfirmed}}
                             </small>
@@ -46,11 +70,11 @@
                     <!--    End - card Area  -->
                 </div>
                 {% if country.active %}
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col ">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col ">
                     <!--    Card Area    -->
                     <div class="card alert-primary border-0 w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Active</h5>
+                            <h5 class="card-title h3">Active</h5>
                             <small class="text-muted counterUp today">{{total.active}}</small>
                             <p class="card-text counterUp h3">
                                 {{total.active|intword}}
@@ -61,11 +85,11 @@
                 </div>
                 {% endif %}
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col mb-4">
                     <!--    Card Area    -->
                     <div class="card alert-success border-0 w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Recovered</h5>
+                            <h5 class="card-title h3">Recovered</h5>
                             <small class="text-muted counterUp today">{{country.newRecovered}}</small>
                             <p class="card-text h3">
                                 {{country.totalRecoverd|intword|slice:":6"|upper}}
@@ -75,11 +99,11 @@
                     <!--    End - card Area  -->
                 </div>
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col">
                     <!--    Card Area    -->
                     <div class="card alert-secondary border-0 w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Deaths</h5>
+                            <h5 class="card-title h3">Deaths</h5>
                             <small class="text-muted counterUp today">{{country.newDeaths}}</small>
                             <p class="card-text  h3">
                                 {{country.totalDeaths|intword|slice:":5"|upper}}
@@ -92,14 +116,11 @@
             </div>
 
 
-
-
-
         </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col">
+        <div class="mt-5 col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col">
-                    <div class="row">
+                    <div class="row d-none d-md-block">
                         <div class="col">
                             <p class="h2 alert-danger text-danger w-50 text-center rounded pt-1 pb-1">
                                 {% if global %}
@@ -112,7 +133,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row d-none d-md-block">
                         <div class="col">
                             {% if total %}
                             <small class="text-muted">Last Update on {{total.last_update_time|date:"d M Y , h:i A"}}
@@ -135,75 +156,52 @@
     </div>
     <!--     Data table show with in the gap       -->
 
-            <div class="row mt-5">
-                {% if total %}
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="container shadow p-4  bg-white shadow-box table-Data">
-                        <table class="display table table-hover" id="table_id">
-                            <thead>
-                            <tr class="bg-primary text-white">
-                                <th>State</th>
-                                <th>Total Confirmed</th>
-                                <th>Total Deaths</th>
-                                <th>Total Recoverd</th>
-                                <th>Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for India_Data in indiadata %}
-                            {% if India_Data.state == "" %}
-                            {% comment %} not show{% endcomment %}
-                            {% else %}
-                            <tr>
+    <div class="row mt-5">
+        {% if total %}
+        <div class="col-xl-12 col-lg-12 col-md-12">
+            <div class="container shadow p-4  bg-white shadow-box table-Data">
+                <table class="display table table-hover" id="table_id">
+                    <thead>
+                    <tr class="bg-primary text-white">
+                        <th>State</th>
+                        <th>Total Confirmed</th>
+                        <th>Total Deaths</th>
+                        <th>Total Recoverd</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for India_Data in indiadata %}
+                    {% if India_Data.state == "" %}
+                    {% comment %} not show{% endcomment %}
+                    {% else %}
+                    <tr>
 
-                                <td>{{India_Data.state}}</td>
-                                <td>{{India_Data.confirmed}}</td>
-                                <td>{{India_Data.deaths}}</td>
-                                <td>{{India_Data.recovered}}</td>
-                                <td>{{India_Data.last_update_time|date:"d M Y"}}</td>
+                        <td>{{India_Data.state}}</td>
+                        <td>{{India_Data.confirmed}}</td>
+                        <td>{{India_Data.deaths}}</td>
+                        <td>{{India_Data.recovered}}</td>
+                        <td>{{India_Data.last_update_time|date:"d M Y"}}</td>
 
-                            </tr>
-                            {% endif %}
-                            {% endfor %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- End of the Table Data -->
-                </div>
-                {% elif global %}
-                    {% include 'covid/TableData.html' %}
-                {% else %}
-                    <p class="text-secondary ml-5">Sorry the Table only available for India And global Only</p>
-                {% endif %}
+                    </tbody>
+                </table>
             </div>
+            <!-- End of the Table Data -->
+        </div>
+        {% elif global %}
+        {% include 'covid/TableData.html' %}
+        {% else %}
+        <p class="text-secondary ml-5">Sorry the table only available for India and Global only</p>
+        {% endif %}
+    </div>
 
 </div>
 {% endblock %}
 
 {% block js %}
-
-<script>
-$(".counterUp").counterUp({delay:10,time:1000});
-
-var typed = new Typed(".search",{
-    strings:['Type City name',''],
-    typeSpeed:30,
-    backDelay: 900,
-    backSpeed: 30,
-    // show cursor
-	showCursor: true,
-    cursorChar: "|",
-});
-$(document).ready( function () {
-    let data = $('#table_id').DataTable({
-    "lengthMenu": [[3, 10, 25, 50, -1], [3, 10, 25, 50, "All"]],
-    });
-    $(".search").keyup(function(){
-    data.search($(this).val()).draw();
-    });
-    $("#table_id_filter").addClass("d-none");
-} );
-
-</script>
+<script src="{% static 'covid/js/country.js' %}"></script>
 {% endblock %}
