@@ -1,7 +1,7 @@
 $(".counterUp").counterUp({delay:10,time:1000});
 
-var typed = new Typed(".search",{
-    strings:['Type City name',''],
+var typed = new Typed(".sm-search",{
+    strings:['Type Country name',''],
     typeSpeed:30,
     backDelay: 900,
     backSpeed: 30,
@@ -19,3 +19,12 @@ $(document).ready( function () {
     $("#table_id_filter").addClass("d-none");
 
 } );
+$(window).resize(function(){
+    if(window.innerWidth < 768)
+    {
+    $("[data-toggle='popover']").removeClass('sm-search');
+    }
+    else{
+    $("[data-toggle='popover']").addClass('sm-search');
+    }
+});

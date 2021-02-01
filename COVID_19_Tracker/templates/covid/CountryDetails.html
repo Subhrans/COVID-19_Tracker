@@ -227,23 +227,34 @@
             listArr[c] = "{{i}}";
             c++;
      {% endfor %}
-     console.log(listArr);
      var country_list_str="";
      for( let j=0;j<listArr.length;j++)
      {
-        country_list_str+="<p class='h5'>"+listArr[j]+"</p><br>";
+        country_list_str+="<p class='country_list text-muted'>"+listArr[j]+"</p>";
       }
-      console.log(country_list_str);
+
 
       $("[data-toggle='popover']").popover();
      $("[data-toggle='popover']").attr('data-content',country_list_str);
      $('.form-control').click(function(){
-        $('.popover').addClass('overflow-hidden h-25');
+        $('.popover').addClass('overflow-hidden h-25 w-100');
      });
      $('.form-control').keyup(function(){
-        let data=$('.form-control').val();
-        console.log(data);
-
+        var data=$('.form-control').val().toUpperCase();
+        if(data != '')
+        {
+            let x=document.getElementsByClassName("country_list");
+            for(var i=0;i<x.length;i++)
+            {
+                let name=x[i].textContent.toUpperCase();
+                if(name.indexOf(data) > -1){
+                x[i].style.display="";
+                }
+                else{
+                x[i].style.display="none";
+                }
+            }
+        }
      });
     });
 </script>

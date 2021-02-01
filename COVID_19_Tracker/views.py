@@ -33,7 +33,7 @@ def search_country(request):
                     folium.CircleMarker(location=statelocation, radius=rad, tooltip=tooltip_text, fill=True,
                                         fill_color="#428bca").add_to(map)
             else:
-                country = Countries.objects.get(country__contains=pk)  # context
+                country = Countries.objects.get(country__iexact=pk)  # context
                 location = (country.lat, country.lon)
 
                 map = folium.Map(location=location, min_zoom=2, zoom_start=5)
