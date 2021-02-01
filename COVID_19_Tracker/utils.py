@@ -156,28 +156,36 @@ def get_global_map():
     for i in country_all:
         pk = i.slugId
         countryloc = geolocators.geocode(pk)
-        if i.lat == None:
-            print(pk)
+        try:
+            lat = countryloc.latitude
+            lon = countryloc.longitude
+            if lat == None:
+                print(pk)
 
-        else:
-            print("country_name:", pk, "lat: ", i.lat, "lon:", i.lon)
-            getcountry=Countries.objects.get(slugId=pk)
-            getcountry.lat=countryloc.latitude
-            getcountry.lon=countryloc.longitude
-            getcountry.save()
+            else:
+                print("country_name:", pk, "lat: ", lat, "lon:", lon)
+                getcountry=Countries.objects.get(slugId=pk)
+                getcountry.lat=countryloc.latitude
+                getcountry.lon=countryloc.longitude
+                getcountry.save()
+        except AttributeError:
+            print(pk)
 
 
 def get_India_map():
     state_all = India.objects.all()  # context
     geolocators = Nominatim(user_agent='COVID_19_Tracker')  # initialize app folder with nominatim
+    print(state_all)
     for i in state_all:
         pk = i.state
         stateloc = geolocators.geocode(pk)
-        if i.lat == None:
+        lat=stateloc.latitude
+        lon=stateloc.longitude
+        if lat == None:
             print(pk)
 
         else:
-            print("state_name:", pk, "lat: ", i.lat, "lon:", i.lon)
+            print("after state_name:", pk, "lat: ", lat, "lon:", lon)
             getstate=India.objects.get(state=pk)
             getstate.lat=stateloc.latitude
             getstate.lon=stateloc.longitude
