@@ -63,8 +63,8 @@ class India(models.Model):
     new_deaths = models.BigIntegerField()
     new_recovered = models.BigIntegerField()
     last_update_time = models.DateTimeField()
-    lat = models.DecimalField(max_digits=60, decimal_places=20, blank=True, null=True)
-    lon = models.DecimalField(max_digits=60, decimal_places=20, blank=True, null=True)
+    lat = models.DecimalField(max_digits=25, decimal_places=20, blank=True, null=True)
+    lon = models.DecimalField(max_digits=25, decimal_places=20, blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
 
