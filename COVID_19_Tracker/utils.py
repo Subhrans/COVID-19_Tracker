@@ -2,7 +2,7 @@ from datetime import datetime
 import requests,folium
 from .models import Global, Countries, CountriesHistory, India, IndiaHistory
 from math import sqrt
-
+from geopy.geocoders import Nominatim
 def fetchCovidGlobalData():
     r = requests.get('https://api.covid19api.com/summary')
     r = r.json()
@@ -149,28 +149,38 @@ def indiaData():
                                  )
 
 
-def get_global_map(map):
+def get_global_map():
     # map = folium.Map()  # fetch live location   #context
     country_all = Countries.objects.all()  # context
-
+    geolocators = Nominatim(user_agent='COVID_19_Tracker')  # initialize app folder with nominatim
     for i in country_all:
         pk = i.slugId
-        # countryloc = geolocators.geocode(pk)
+        countryloc = geolocators.geocode(pk)
         if i.lat == None:
             print(pk)
 
         else:
-            # print("country_name:", pk, "lat: ", i.lat, "lon:", i.lon)
-            # getcountry=Countries.objects.get(slugId=pk)
-            # getcountry.lat=countryloc.latitude
-            # getcountry.lon=countryloc.longitude
-            # getcountry.save()
-            location = (i.lat, i.lon)
-            rad = sqrt(i.totalConfirmed) / 100 + 3
-            tooltip_text = f"{pk}<br>" \
-                           f"Confirmed: {i.totalConfirmed}<br>" \
-                           f"Recovered: {i.totalRecoverd}"
-            folium.CircleMarker(location=location, radius=rad, tooltip=tooltip_text, fill=True,
-                                fill_color="#428bca").add_to(map)
+            print("country_name:", pk, "lat: ", i.lat, "lon:", i.lon)
+            getcountry=Countries.objects.get(slugId=pk)
+            getcountry.lat=countryloc.latitude
+            getcountry.lon=countryloc.longitude
+            getcountry.save()
 
-        return map, country_all
+
+def get_India_map():
+    state_all = India.objects.all()  # context
+    geolocators = Nominatim(user_agent='COVID_19_Tracker')  # initialize app folder with nominatim
+    for i in state_all:
+        pk = i.state
+        stateloc = geolocators.geocode(pk)
+        if i.lat == None:
+            print(pk)
+
+        else:
+            print("state_name:", pk, "lat: ", i.lat, "lon:", i.lon)
+            getstate=India.objects.get(state=pk)
+            getstate.lat=stateloc.latitude
+            getstate.lon=stateloc.longitude
+            getstate.save()
+
+
