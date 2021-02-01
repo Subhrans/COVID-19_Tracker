@@ -4,9 +4,8 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('COVID_19_Tracker', '0016_auto_20210131_0116'),
+        ('COVID_19_Tracker', '0014_countrycode'),
     ]
 
     operations = [
