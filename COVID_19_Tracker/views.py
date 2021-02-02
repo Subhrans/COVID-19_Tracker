@@ -18,7 +18,7 @@ def search_country(request):
         if searchform.is_valid():
             pk = searchform.cleaned_data['location_name']
 
-            if pk == "India":
+            if pk.upper() == "INDIA":
                 indiadata = India.objects.exclude(state_code="TT")  # context
                 total = India.objects.get(state_code="TT")  # context
                 indialoc = geolocators.geocode(pk)
@@ -80,12 +80,11 @@ def search_country(request):
                'map': map,
                'searchform': searchform,
                'country_all': country_all,
-               'country_name_list':country_name_list,
+               'country_name_list': country_name_list,
                }
     if data:
         context.update({'country': data})
         context.update({'global': True})
-
 
     return render(request, 'covid/CountryDetails.html', context)
 
