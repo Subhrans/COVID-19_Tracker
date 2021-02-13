@@ -7,3 +7,4 @@ django-heroku
 python-decouple
 folium
 geopy
+pillow
