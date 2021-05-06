@@ -11,3 +11,9 @@ Working URL:  https://covid19-global-india.herokuapp.com/
     install requirements.txt in command prompt
     pip install -r requirements.txt
 ### Step 2:
+<p>Write command in terminal or shell</p>
+    
+    python manage.py pull_latest_data
+    
+##### then
+    python manage.py runserver
